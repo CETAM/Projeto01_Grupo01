@@ -1,0 +1,28 @@
+DER - SISTEMA DE CONTROLE DE BIBLIOTECA
+
+AUTOR (1) -------- (N) LIVRO (N) -------- (1) EDITORA
+                         |
+                         | (1)
+                         |
+                         | (N)
+                    EMPRESTIMO (N) -------- (1) ALUNO
+                         |
+                         | (1)
+                         |
+                       (0..1)
+                       MULTA
+
+Chaves primárias:
+- autor.id
+- editora.id
+- aluno.id
+- livro.id
+- emprestimo.id
+- multa.id
+
+Chaves estrangeiras:
+- livro.autor_id -> autor.id
+- livro.editora_id -> editora.id
+- emprestimo.livro_id -> livro.id
+- emprestimo.aluno_id -> aluno.id
+- multa.emprestimo_id -> emprestimo.id
