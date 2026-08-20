@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Livros')}"></head><body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav><div th:replace="~{fragments/layout :: mobilemenu}"></div><div th:replace="~{fragments/layout :: sidebar}"></div>
+<main class="main-content"><div class="container-fluid py-4">
+<div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2"><div><h1 class="h3 mb-0">Livros</h1><small class="text-secondary">CRUD completo de livros.</small></div><a class="btn btn-primary" th:href="@{/livros/novo}"><i class="bi bi-plus-circle"></i> Novo livro</a></div>
+<div th:replace="~{fragments/layout :: mensagens}"></div>
+<div class="card shadow-sm"><div class="card-body table-responsive">
+<table class="table table-hover align-middle"><thead><tr><th>ID</th><th>Título</th><th>Autor</th><th>Editora</th><th>Disponível</th><th class="text-end">Ações</th></tr></thead><tbody>
+<tr th:each="item : ${pagina.content}">
+<td th:text="${item.id}"></td><td th:text="${item.titulo}"></td><td th:text="${item.autor.nome}"></td><td th:text="${item.editora.nome}"></td>
+<td><span class="badge text-bg-success" th:text="${item.quantidadeDisponivel + '/' + item.quantidadeTotal}"></span></td>
+<td class="text-end text-nowrap"><a class="btn btn-sm btn-outline-primary" th:href="@{/livros/editar/{id}(id=${item.id})}"><i class="bi bi-pencil"></i></a>
+<button class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#modalExcluir" th:attr="data-id=${item.id},data-nome=${item.titulo}"><i class="bi bi-trash"></i></button></td>
+</tr><tr th:if="${pagina.empty}"><td colspan="6" class="text-center text-secondary py-4">Nenhum livro cadastrado.</td></tr>
+</tbody></table></div>
+<div class="card-footer bg-white" th:if="${pagina.totalPages > 1}"><nav><ul class="pagination justify-content-center mb-0">
+<li class="page-item" th:classappend="${pagina.first} ? 'disabled'"><a class="page-link" th:href="@{/livros(pagina=${pagina.number - 1})}">Anterior</a></li>
+<li class="page-item" th:each="i : ${#numbers.sequence(0,pagina.totalPages-1)}" th:classappend="${i==pagina.number} ? 'active'"><a class="page-link" th:text="${i+1}" th:href="@{/livros(pagina=${i})}"></a></li>
+<li class="page-item" th:classappend="${pagina.last} ? 'disabled'"><a class="page-link" th:href="@{/livros(pagina=${pagina.number + 1})}">Próxima</a></li>
+</ul></nav></div></div></div></main>
+<div class="modal fade" id="modalExcluir" tabindex="-1"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><h5>Confirmar exclusão</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body">Excluir <strong id="nomeExcluir"></strong>?</div><div class="modal-footer"><button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button><form id="formExcluir" method="post"><button class="btn btn-danger">Excluir</button></form></div></div></div></div>
+<div th:replace="~{fragments/layout :: scripts}"></div><script>configurarModalExclusao('/livros/excluir/');</script></body></html>

@@ -1,0 +1,13 @@
+<!DOCTYPE html><html lang="pt-BR" xmlns:th="http://www.thymeleaf.org"><head th:replace="~{fragments/layout :: head('Empréstimo')}"></head><body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav><div th:replace="~{fragments/layout :: mobilemenu}"></div><div th:replace="~{fragments/layout :: sidebar}"></div>
+<main class="main-content"><div class="container-fluid py-4"><h1 class="h3 mb-3" th:text="${emprestimo.id == null} ? 'Novo Empréstimo' : 'Alterar Empréstimo'"></h1>
+<div th:if="${erro}" class="alert alert-danger" th:text="${erro}"></div>
+<div class="card shadow-sm"><div class="card-body"><form th:action="@{/emprestimos/salvar}" th:object="${emprestimo}" method="post">
+<input type="hidden" th:field="*{id}">
+<div class="row g-3">
+<div class="col-md-6"><label class="form-label">Livro</label><select class="form-select" th:field="*{livro}"><option value="">Selecione</option><option th:each="l:${livros}" th:value="${l.id}" th:text="${l.titulo + ' (' + l.quantidadeDisponivel + ' disp.)'}"></option></select></div>
+<div class="col-md-6"><label class="form-label">Aluno</label><select class="form-select" th:field="*{aluno}"><option value="">Selecione</option><option th:each="a:${alunos}" th:value="${a.id}" th:text="${a.nome + ' - ' + a.matricula}"></option></select></div>
+<div class="col-md-6"><label class="form-label">Data prevista de devolução</label><input class="form-control" type="date" th:field="*{dataPrevistaDevolucao}"></div>
+</div>
+<div class="mt-4 d-flex gap-2"><button class="btn btn-primary"><i class="bi bi-save"></i> Salvar</button><a class="btn btn-secondary" th:href="@{/emprestimos}">Cancelar</a></div>
+</form></div></div></div></main><div th:replace="~{fragments/layout :: scripts}"></div></body></html>
