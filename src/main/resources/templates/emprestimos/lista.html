@@ -1,0 +1,21 @@
+<!DOCTYPE html><html lang="pt-BR" xmlns:th="http://www.thymeleaf.org"><head th:replace="~{fragments/layout :: head('Empréstimos')}"></head><body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav><div th:replace="~{fragments/layout :: mobilemenu}"></div><div th:replace="~{fragments/layout :: sidebar}"></div>
+<main class="main-content"><div class="container-fluid py-4">
+<div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2"><div><h1 class="h3 mb-0">Empréstimos e Devoluções</h1><small class="text-secondary">Controle de retirada, prazo e devolução.</small></div><a class="btn btn-warning" th:href="@{/emprestimos/novo}"><i class="bi bi-plus-circle"></i> Novo empréstimo</a></div>
+<div th:replace="~{fragments/layout :: mensagens}"></div>
+<div class="card shadow-sm"><div class="card-body table-responsive"><table class="table table-hover align-middle"><thead><tr><th>Livro</th><th>Aluno</th><th>Empréstimo</th><th>Prevista</th><th>Status</th><th class="text-end">Ações</th></tr></thead><tbody>
+<tr th:each="item:${pagina.content}"><td th:text="${item.livro.titulo}"></td><td th:text="${item.aluno.nome}"></td><td th:text="${#temporals.format(item.dataEmprestimo,'dd/MM/yyyy')}"></td><td th:text="${#temporals.format(item.dataPrevistaDevolucao,'dd/MM/yyyy')}"></td>
+<td><span class="badge" th:classappend="${item.status.name() == 'DEVOLVIDO'} ? 'text-bg-success' : (${item.status.name() == 'ATRASADO'} ? 'text-bg-danger' : 'text-bg-warning')" th:text="${item.status}"></span></td>
+<td class="text-end text-nowrap">
+<form th:if="${item.status.name() != 'DEVOLVIDO'}" th:action="@{/emprestimos/devolver/{id}(id=${item.id})}" method="post" class="d-inline"><button class="btn btn-sm btn-success" title="Devolver"><i class="bi bi-check2-circle"></i></button></form>
+<a class="btn btn-sm btn-outline-primary" th:href="@{/emprestimos/editar/{id}(id=${item.id})}"><i class="bi bi-pencil"></i></a>
+<button class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#modalExcluir" th:attr="data-id=${item.id},data-nome=${item.livro.titulo}"><i class="bi bi-trash"></i></button>
+</td></tr><tr th:if="${pagina.empty}"><td colspan="6" class="text-center text-secondary py-4">Nenhum empréstimo registrado.</td></tr>
+</tbody></table></div>
+<div class="card-footer bg-white" th:if="${pagina.totalPages > 1}"><nav><ul class="pagination justify-content-center mb-0">
+<li class="page-item" th:classappend="${pagina.first} ? 'disabled'"><a class="page-link" th:href="@{/emprestimos(pagina=${pagina.number - 1})}">Anterior</a></li>
+<li class="page-item" th:each="i:${#numbers.sequence(0,pagina.totalPages-1)}" th:classappend="${i==pagina.number} ? 'active'"><a class="page-link" th:text="${i+1}" th:href="@{/emprestimos(pagina=${i})}"></a></li>
+<li class="page-item" th:classappend="${pagina.last} ? 'disabled'"><a class="page-link" th:href="@{/emprestimos(pagina=${pagina.number + 1})}">Próxima</a></li>
+</ul></nav></div></div></div></main>
+<div class="modal fade" id="modalExcluir" tabindex="-1"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><h5>Excluir empréstimo</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body">Deseja excluir o empréstimo de <strong id="nomeExcluir"></strong>?</div><div class="modal-footer"><button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button><form id="formExcluir" method="post"><button class="btn btn-danger">Excluir</button></form></div></div></div></div>
+<div th:replace="~{fragments/layout :: scripts}"></div><script>configurarModalExclusao('/emprestimos/excluir/');</script></body></html>

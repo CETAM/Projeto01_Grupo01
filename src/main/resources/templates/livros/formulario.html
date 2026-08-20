@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Livro')}"></head><body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav><div th:replace="~{fragments/layout :: mobilemenu}"></div><div th:replace="~{fragments/layout :: sidebar}"></div>
+<main class="main-content"><div class="container-fluid py-4">
+<h1 class="h3 mb-3" th:text="${livro.id == null} ? 'Cadastrar Livro' : 'Alterar Livro'"></h1>
+<div class="card shadow-sm"><div class="card-body"><form th:action="@{/livros/salvar}" th:object="${livro}" method="post">
+<input type="hidden" th:field="*{id}">
+<div class="row g-3">
+<div class="col-md-8"><label class="form-label">Título</label><input class="form-control" th:field="*{titulo}"><div class="text-danger small" th:errors="*{titulo}"></div></div>
+<div class="col-md-4"><label class="form-label">ISBN</label><input class="form-control" th:field="*{isbn}"></div>
+<div class="col-md-6"><label class="form-label">Autor</label><select class="form-select" th:field="*{autor}"><option value="">Selecione</option><option th:each="a:${autores}" th:value="${a.id}" th:text="${a.nome}"></option></select></div>
+<div class="col-md-6"><label class="form-label">Editora</label><select class="form-select" th:field="*{editora}"><option value="">Selecione</option><option th:each="e:${editoras}" th:value="${e.id}" th:text="${e.nome}"></option></select></div>
+<div class="col-md-4"><label class="form-label">Categoria</label><input class="form-control" th:field="*{categoria}"></div>
+<div class="col-md-4"><label class="form-label">Ano</label><input class="form-control" type="number" th:field="*{anoPublicacao}"></div>
+<div class="col-md-4"><label class="form-label">Quantidade total</label><input class="form-control" type="number" min="1" th:field="*{quantidadeTotal}"></div>
+</div>
+<div class="mt-4 d-flex gap-2"><button class="btn btn-primary"><i class="bi bi-save"></i> Salvar</button><a class="btn btn-secondary" th:href="@{/livros}">Cancelar</a></div>
+</form></div></div></div></main><div th:replace="~{fragments/layout :: scripts}"></div></body></html>

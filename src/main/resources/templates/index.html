@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Dashboard')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+<div th:replace="~{fragments/layout :: mobilemenu}"></div>
+<div th:replace="~{fragments/layout :: sidebar}"></div>
+
+<main class="main-content">
+    <div class="page-shell">
+        <section class="geek-hero mb-4">
+            <div class="eyebrow mb-2">WELCOME TO THE MULTIVERSE</div>
+            <h1 class="display-6 mb-2">Biblioteca Geek CETAM</h1>
+            <p class="mb-4">
+                Gerencie quadrinhos, mangás, revistas e publicações do universo geek em um só lugar.
+                Controle seu acervo, leitores, empréstimos, devoluções e multas com uma interface moderna.
+            </p>
+            <div class="d-flex flex-wrap gap-2">
+                <a class="btn btn-danger" th:href="@{/livros}">
+                    <i class="bi bi-book-half me-1"></i> Explorar acervo
+                </a>
+                <a class="btn btn-warning" th:href="@{/emprestimos/novo}">
+                    <i class="bi bi-lightning-charge-fill me-1"></i> Novo empréstimo
+                </a>
+                <a class="btn btn-outline-light" th:href="@{/relatorios}">
+                    <i class="bi bi-bar-chart-fill me-1"></i> Ver relatórios
+                </a>
+            </div>
+        </section>
+
+        <div class="comic-strip mb-4"></div>
+
+        <div class="d-flex align-items-center justify-content-between mb-3">
+            <div>
+                <div class="section-title">Visão geral</div>
+                <small class="text-secondary">Números atualizados do sistema</small>
+            </div>
+            <span class="badge text-bg-dark"><i class="bi bi-stars me-1"></i> Geek Mode</span>
+        </div>
+
+        <div class="row g-3">
+            <div class="col-sm-6 col-xl-3" th:each="item, stat : ${resumo}">
+                <div class="card dashboard-card h-100 shadow-sm">
+                    <div class="card-body">
+                        <div class="d-flex align-items-start justify-content-between gap-2">
+                            <div>
+                                <p class="text-secondary mb-1 small" th:text="${item.key}"></p>
+                                <div class="display-6" th:text="${item.value}">0</div>
+                            </div>
+                            <div class="stat-icon">
+                                <i class="bi bi-lightning-charge-fill"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <section class="mt-4">
+            <div class="section-title mb-3">Acesso rápido</div>
+            <div class="row g-3">
+                <div class="col-sm-6 col-xl-3">
+                    <a class="quick-card card shadow-sm" th:href="@{/livros/novo}">
+                        <div class="card-body">
+                            <div class="quick-icon red mb-3"><i class="bi bi-plus-lg"></i></div>
+                            <h5>Adicionar ao acervo</h5>
+                            <p class="text-secondary small mb-0">Cadastre HQs, mangás, revistas e outras publicações.</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-sm-6 col-xl-3">
+                    <a class="quick-card card shadow-sm" th:href="@{/alunos/novo}">
+                        <div class="card-body">
+                            <div class="quick-icon blue mb-3"><i class="bi bi-person-plus-fill"></i></div>
+                            <h5>Novo leitor</h5>
+                            <p class="text-secondary small mb-0">Cadastre um aluno para utilizar o acervo geek.</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-sm-6 col-xl-3">
+                    <a class="quick-card card shadow-sm" th:href="@{/emprestimos/novo}">
+                        <div class="card-body">
+                            <div class="quick-icon yellow mb-3"><i class="bi bi-arrow-left-right"></i></div>
+                            <h5>Emprestar publicação</h5>
+                            <p class="text-secondary small mb-0">Registre rapidamente uma nova retirada.</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-sm-6 col-xl-3">
+                    <a class="quick-card card shadow-sm" th:href="@{/relatorios}">
+                        <div class="card-body">
+                            <div class="quick-icon dark mb-3"><i class="bi bi-bar-chart-fill"></i></div>
+                            <h5>Central de relatórios</h5>
+                            <p class="text-secondary small mb-0">Acompanhe indicadores e a movimentação da biblioteca.</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </div>
+</main>
+
+<div th:replace="~{fragments/layout :: scripts}"></div>
+</body>
+</html>
