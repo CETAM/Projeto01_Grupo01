@@ -1,4 +1,4 @@
-package cetam.projeto01grupo01;
+package br.com.cetam.biblioteca;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

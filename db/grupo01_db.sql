@@ -61,11 +61,6 @@ CREATE TABLE IF NOT EXISTS multa (
     CONSTRAINT fk_multa_emprestimo FOREIGN KEY (emprestimo_id) REFERENCES emprestimo(id)
 );
 
-CREATE INDEX idx_livro_titulo ON livro(titulo);
-CREATE INDEX idx_aluno_nome ON aluno(nome);
-CREATE INDEX idx_emprestimo_status ON emprestimo(status);
-CREATE INDEX idx_multa_status ON multa(status);
-
 -- DADOS DE EXEMPLO
 INSERT INTO autor (nome, nacionalidade) VALUES
 ('Machado de Assis', 'Brasileira'),
